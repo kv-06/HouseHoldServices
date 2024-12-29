@@ -67,12 +67,12 @@ The project follows an **MVC (Model-View-Controller)** architecture:
 ## **How to Run the Application**
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/household-services-app.git
-   cd household-services-app
+   git clone https://github.com/your-username/householdservices.git
+   cd householdservicesapp
 2. Install required dependencies
 3. Run the application:
    ```bash
-   python app.py
+   python main.py
 4. Open the application in your browser at http://127.0.0.1:5000.
 
 ## License
