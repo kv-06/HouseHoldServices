@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View and Edit Review</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{message}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+    <h1>Review Details</h1>
+
+    <h2>Service Details</h2>
+    <p><b>Service Name:</b> {{ service_request.service_name }}</p>
+    <p><b>Professional Name:</b> {{ service_request.professional_name }}</p>
+    <p><b>Professional Phone:</b> {{ service_request.phone }}</p>
+    <p><b>Date Requested:</b> {{ service_request.date_of_request }}</p>
+    <p><b>Date Completed:</b> {{ service_request.date_of_completion }}</p>
+
+    {% if service_request.service_status == "rejected" %}
+    
+    <p><i>Cant be reviewed</i></p>
+    
+    {% else %}
+    <h2>Customer Review</h2>
+    <form action="{{ url_for('view_review_cust', customer_id=customer_id, request_id=service_request.request_id) }}" method="POST">
+        <label for="rating"><b>Rating (out of 5):</b></label>
+        <input type="number" id="rating" name="rating" min="1" max="5" value="{{ review.rating if review else '' }}" required><br><br>
+
+        <label for="remarks"><b>Remarks:</b></label><br>
+        <textarea id="remarks" name="remarks" rows="4" cols="50" placeholder="Enter your remarks">{{ review.review if review else '' }}</textarea><br><br>
+
+        <button type="submit">Update Review</button>
+    </form>
+    {% endif %}
+    <br><br>
+    <button onclick="location.href='/customer/dashboard/{{customer_id}}'">Back</button>
+
+</body>
+</html>

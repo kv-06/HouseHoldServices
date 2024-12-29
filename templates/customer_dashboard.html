@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+</head>
+<body>
+    <header>
+        <h1>Welcome {{customer.name}} </h1>
+        <div class="nav">
+            <button onclick="location.href='/customer/dashboard/{{ customer.customer_id }}'">Home</button>
+            <button onclick="location.href='/customer/book_service/{{ customer.customer_id }}'">Book a service</button>
+            <button onclick="location.href='/customer/search/{{ customer.customer_id }}'">Search</button>
+            <button onclick="location.href='/customer/summary/{{ customer.customer_id }}'">Summary</button>
+            <button onclick="location.href='/'">Logout</button>
+        </div>
+    </header>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+     <div class="profile-section">
+     <h2>Profile</h2>
+     <p><b>Name:</b> {{ customer.name }}</p>
+     <p><b>Username:</b> {{ customer.username }}</p>
+     <p><b>Email:</b> {{ customer.email }}</p>
+     <p><b>Phone:</b> {{ customer.phone }}</p>
+     <p><b>Address:</b> {{ customer.address }}</p>
+     <button onclick="location.href='/customer/profile/{{customer.customer_id }}'">Edit Profile</button>
+    </div>
+
+    <h2>Current Services</h2>
+    <table border="1">
+        <tr>
+            <th>Service Name</th>
+            <th>Professional Name</th>
+            <th>Professional Phone</th>
+            <th>Status</th>
+            <th>Date Requested</th>
+            <th>Actions</th>
+        </tr>
+        {% for service in current_services %}
+        <tr>
+            <td>{{ service.service_name }}</td>
+            <td>{{ service.professional_name or 'Not Assigned' }}</td>
+            <td>{{ service.professional_phone or 'N/A' }}</td>
+            <td>{{ service.service_status }}</td>
+            <td>{{ service.date_of_request }}</td>
+            <td>
+                <form action="{{ url_for('close_service_request', customer_id=customer.customer_id, request_id=service.request_id) }}" method="GET">
+                    <button type="submit">Close</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+    <h2>Service History</h2>
+    <table border="1">
+        <tr>
+            <th>Service Name</th>
+            <th>Professional Name</th>
+            <th>Professional Phone</th>
+            <th>Status</th>
+            <th>Date Requested</th>
+            <th>Date Completed</th>
+            <th>Review</th>
+        </tr>
+        {% for service in service_history %}
+        <tr>
+            <td>{{ service.service_name }}</td>
+            <td>{{ service.professional_name or 'Not Assigned' }}</td>
+            <td>{{ service.professional_phone or 'N/A' }}</td>
+            <td>{{ service.service_status }}</td>
+            <td>{{ service.date_of_request }}</td>
+            <td>{{ service.date_of_completion or 'N/A' }}</td>
+            <td>
+                <form action="{{ url_for('view_review_cust', customer_id=customer.customer_id, request_id=service.request_id) }}" method="GET">
+                    <button type="submit">View</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

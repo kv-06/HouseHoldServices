@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+</head>
+<body>
+    <h1>Edit Profile</h1>
+    <form method="POST">
+
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" value="{{ professional.username }}" readonly><br><br>
+
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" value="{{ professional.name }}" required><br><br>
+       
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" value="{{ professional.password }}" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" value="{{ professional.email }}" ><br><br>
+
+        <label for="phone">Phone:</label><br>
+        <input type="text" id="phone" name="phone" value="{{ professional.phone }}" required><br><br>
+
+        <label for="service">Service:</label><br>
+        <select id="service" name="service" required>
+            <option value="" disabled {% if not selected_service %}selected{% endif %}>Select a service</option>
+            {% for service in services %}
+                <option value="{{ service.service_id }}" 
+                    {% if service.service_id == professional.service_id %}selected{% endif %}>
+                    {{ service.name }}
+                </option>
+            {% endfor %}
+        </select><br><br>
+
+
+        <label for="experience">Experience (in years):</label><br>
+        <input type="number" id="experience" name="experience" value="{{ professional.experience }}" required><br><br>
+
+        <button type="submit">Save</button>
+        <button onclick="location.href='/professional/dashboard{{professional.professional_id}}'">Cancel</button>
+    </form>
+</body>
+</html>

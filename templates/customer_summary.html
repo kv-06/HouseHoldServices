@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+</head>
+<body>
+    <header>
+        <h1>Summary </h1>
+        <div class="nav">
+            <button onclick="location.href='/customer/dashboard/{{ customer_id }}'">Home</button>
+            <button onclick="location.href='/customer/book_service/{{ customer_id }}'">Book a service</button>
+            <button onclick="location.href='/customer/search/{{ customer_id }}'">Search</button>
+            <button onclick="location.href='/customer/summary/{{ customer_id }}'">Summary</button>
+            <button onclick="location.href='/'">Logout</button>
+        </div>
+    </header>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <h2>Service Request Status</h2>
+    <table border="1">
+        <tr>
+            <th>Status</th>
+            <th>Count</th>
+        </tr>
+        {% for status, count in status_counts %}
+        <tr>
+            <td>{{ status }}</td>
+            <td>{{ count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <img src="{{ url_for('generate_piechart') }}" alt="Professional Summary Chart">
+
+</body>
+</html>

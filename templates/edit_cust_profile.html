@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Profile</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+</head>
+<body>
+    <h1>Edit Profile</h1>
+    <form method="POST">
+
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" value="{{ customer.username }}" readonly><br><br>
+
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" value="{{ customer.name }}" required><br><br>
+       
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" value="{{ customer.password }}" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" value="{{ customer.email }}" ><br><br>
+
+        <label for="phone">Phone:</label><br>
+        <input type="text" id="phone" name="phone" value="{{ customer.phone }}" required><br><br>
+
+        <label for="address">Address:</label><br>
+        <input type="text" id="address" name="address" value="{{ customer.address }}" required><br><br>
+
+        
+        <button type="submit">Save</button>
+        <button onclick="location.href='/customer/dashboard{{customer.customer_id}}'">Cancel</button>
+    </form>
+</body>
+</html>

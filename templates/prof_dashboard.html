@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Professional Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+</head>
+<body>
+    <header>
+        <h1>Welcome {{professional.name}} </h1>
+        <div class="nav">
+            <button onclick="location.href='/professional/dashboard/{{ professional.professional_id }}'">Home</button>
+            <button onclick="location.href='/professional/search/{{ professional.professional_id }}'">Search</button>
+            <button onclick="location.href='/professional/summary/{{ professional.professional_id }}'">Summary</button>
+            <button onclick="location.href='/'">Logout</button>
+        </div>
+    </header>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h2>Profile</h2>
+    <p><b>Username:</b> {{ professional.username }}</p>
+    <p><b>Name:</b> {{ professional.name }}</p>
+    <p><b>Email:</b> {{ professional.email }}</p>
+    <p><b>Phone:</b> {{ professional.phone }}</p>
+    <p><b>Experience:</b> {{ professional.experience }} years</p>
+    <p><b>Service:</b> {{ professional.service_name }}</p>
+    <button onclick="location.href='/professional/profile/{{ professional.professional_id }}'">Edit Profile</button>
+
+    <h2>Today's Services</h2>
+    <table border="1">
+        <tr>
+            <th>Request ID</th>
+            <th>Customer Name</th>
+            <th>Date of Request</th>
+            <th>Location</th>
+        </tr>
+        {% for service in todays_services %}
+        <tr>
+            <td>{{ service.request_id }}</td>
+            <td>{{ service.cust_name}}</td>
+            <td>{{ service.date_of_request }}</td>
+            <td>{{ service.location }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Requested Services</h2>
+    <table border="1">
+        <tr>
+            <th>Request ID</th>
+            <th>Customer Name</th>
+            <th>Date of Request</th>
+            <th>Location</th>
+            <th>Action</th>
+        </tr>
+        {% for service in requested_services %}
+        <tr>
+            <td>{{ service.request_id }}</td>
+            <td>{{ service.cust_name }}</td>
+            <td>{{ service.date_of_request }}</td>
+            <td>{{ service.location }}</td>
+            <td>
+                <button onclick="location.href='/professional/accept_req/{{ service.request_id }}'">Accept</button>
+                <button onclick="location.href='/professional/reject_req/{{ service.request_id }}'">Reject</button> <!-- Reject button -->
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Closed Services</h2>
+    <table border="1">
+        <tr>
+            <th>Request ID</th>
+            <th>Customer Name</th>
+            <th>Date of Completion</th>
+            <th>Location</th>
+            <th>Review</th>
+        </tr>
+        {% for service in closed_services %}
+        <tr>
+            <td>{{ service.request_id }}</td>
+            <td>{{ service.cust_name }}</td>
+            <td>{{ service.date_of_completion }}</td>
+            <td>{{ service.location }}</td>
+            <td>
+                <form action="{{ url_for('view_review_prof', professional_id=professional.professional_id, request_id=service.request_id) }}" method="GET">
+                    <button type="submit">View Review</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    
+
+    <h2>Rejected Services</h2>
+    <table border="1">
+        <tr>
+            <th>Request ID</th>
+            <th>Customer Name</th>
+            <th>Date of Request</th>
+            <th>Location</th>
+        </tr>
+        {% for service in other_services %}
+        <tr>
+            <td>{{ service.request_id }}</td>
+            <td>{{ service.cust_name }}</td>
+            <td>{{ service.date_of_request }}</td>
+            <td>{{ service.location }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

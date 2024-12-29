@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+    <title>Admin Summary</title>
+
+</head>
+<body>
+    <header>
+        <h1>Admin Summary</h1>
+        <div class="nav">
+            <button onclick="location.href='/admin/dashboard'">Home</button>
+            <button onclick="location.href='/admin/search'">Search</button>
+            <button onclick="location.href='/admin/summary'">Summary</button>
+            <button onclick="location.href='/'">Logout</button>
+        </div>
+    </header>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <ul>
+        <li>Total Customers: {{ customers }}</li>
+        <li>Total Professionals: {{ professionals }}</li>
+        <li>Total Services: {{ services }}</li>
+        <li>Total Service Requests: {{ requests }}</li>
+    </ul>
+
+    <h2>Service Request Status</h2>
+    <table border="1">
+        <tr>
+            <th>Status</th>
+            <th>Count </th>
+        </tr>
+        {% for status, percentage in status_counts %}
+        <tr>
+            <td>{{ status }}</td>
+            <td>{{ percentage }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <img src="{{ url_for('generate_piechart') }}" alt="Professional Summary Chart">
+
+    <h2>Overall Average Rating</h2>
+    <div style="border: 1px solid #000; width: 200px; height: 30px;">
+        <div style="--overall_rating: {{ overall_rating }}; background-color: #1776dc; height: 100%; text-align: center; width: calc(var(--overall_rating) * 20%);">
+            {{ overall_rating | default(0) }}
+        </div>
+    </div>
+</body>
+</html>

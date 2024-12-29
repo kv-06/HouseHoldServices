@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Professional Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+</head>
+<body>
+    <header>
+        <h1>Summary</h1>
+        <div class="nav">
+            <button onclick="location.href='/professional/dashboard/{{ professional_id }}'">Home</button>
+            <button onclick="location.href='/professional/search/{{ professional_id }}'">Search</button>
+            <button onclick="location.href='/professional/summary/{{ professional_id }}'">Summary</button>
+            <button onclick="location.href='/'">Logout</button>
+        </div>
+    </header>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+
+    <h2>Service Request Status</h2>
+    <table border="1">
+        <tr>
+            <th>Status</th>
+            <th>Count </th>
+        </tr>
+        {% for status, percentage in status_counts %}
+        <tr>
+            <td>{{ status }}</td>
+            <td>{{ percentage }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <img src="{{ url_for('generate_piechart') }}" alt="Professional Summary Chart">
+
+    
+    
+
+    <h2>Average Rating</h2>
+    <div style="border: 1px solid #000; width: 200px; height: 30px; position: relative;">
+        <div style="--average_rating: {{ average_rating }}; background-color: #1776dc; height: 100%; text-align: center; width: calc(var(--average_rating) * 20%);">
+            {{ average_rating | default(0) }}
+        </div>
+    </div>
+
+
+</body>
+</html>

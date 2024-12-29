@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Close Service</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <h1>Close Service Request</h1>
+    <h2>Service Details</h2>
+    <p><b>Service Name:</b> {{ service_request.service_name }}</p>
+    <p><b>Professional Name:</b> {{ service_request.professional_name }}</p>
+    <p><b>Professional Phone:</b> {{ service_request.phone }}</p>
+    <p><b>Date Requested:</b> {{ service_request.date_of_request }}</p>
+    <p><b>Remarks:</b> {{ service_request.remarks }}</p>
+
+    
+    <h2>Submit Your Review</h2>
+    <form action="" method="POST">
+        <label for="rating">Rating:</label><br>
+        <input type="radio" id="rating1" name="rating" value="1"> 1<br>
+        <input type="radio" id="rating2" name="rating" value="2"> 2<br>
+        <input type="radio" id="rating3" name="rating" value="3"> 3<br>
+        <input type="radio" id="rating4" name="rating" value="4"> 4<br>
+        <input type="radio" id="rating5" name="rating" value="5" checked> 5<br><br>
+
+        <label for="remarks">Remarks:</label><br>
+        <textarea id="remarks" name="remarks" rows="4" cols="50"></textarea><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+   
+
+    <br><br>
+    <button onclick="location.href='/customer/dashboard/{{customer_id}}'">Cancel</button>
+
+</body>
+</html>

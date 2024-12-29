@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Customer Review</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+</head>
+<body>
+    <h1>Customer Review</h1>
+    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+    <h2>Service Details</h2>
+    <p><b>Service Name:</b> {{ service_request.service_name }}</p>
+    <p><b>Customer Name:</b> {{ service_request.customer_name }}</p>
+    <p><b>Customer Address:</b> {{ service_request.location }}</p>
+    <p><b>Date Requested:</b> {{ service_request.date_of_request }}</p>
+    <p><b>Date Completed:</b> {{ service_request.date_of_completion or 'N/A' }}</p>
+
+    {% if review %}
+    <h2>Review Details</h2>
+    <p><b>Rating:</b> {{ review.rating }} / 5</p>
+    <p><b>Remarks:</b> {{ review.review }}</p>
+    {% else %}
+    <p><i>No review has been submitted for this service request yet.</i></p>
+    {% endif %}
+
+    <br><br>
+    <button onclick="location.href='/professional/dashboard/{{service_request.professional_id}}'">Back</button>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+    <title>Admin Search</title>
+
+</head>
+<body>
+    <header>
+        <h1>Search</h1>
+        <div class="nav">
+            <button onclick="location.href='/admin/dashboard'">Home</button>
+            <button onclick="location.href='/admin/search'">Search</button>
+            <button onclick="location.href='/admin/summary'">Summary</button>
+            <button onclick="location.href='/'">Logout</button>
+        </div>
+    </header>
+    <br>
+    <br>
+        <form method="POST">
+            <input type="text" name="query" placeholder = "{{query}}">
+            <input type="date" name="date_filter" placeholder="Filter by date">
+            <button type="submit">Search</button>
+        </form>
+        <br>
+        <br>
+    <div class="container">
+        <div class="section">
+    {% if results.customers %}
+    <h2>Customers</h2>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Status</th>
+        </tr>
+        {% for customer in results.customers %}
+        <tr>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.username }}</td>
+            <td>{{ customer.phone }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.address }}</td>
+            <td>
+                {% if customer.status == 'active' %}
+                <button onclick="location.href='/admin/block_cust/{{ customer.customer_id }}'">Block</button>
+                {% else %}
+                <button onclick="location.href='/admin/unblock_cust/{{ customer.customer_id }}'">Unblock </button>
+                {% endif %}
+            </td>        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+
+<div class="section">
+    {% if results.professionals %}
+    <h2>Professionals</h2>
+    <table border="1">
+        <tr>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Service</th>
+            <th>Experience</th>
+            <th>Proof</th>
+            <th>Action</th>
+        </tr>
+        {% for professional in results.professionals %}
+        <tr>
+            <td>{{ professional.username }}</td>
+            <td>{{ professional.name }}</td>
+            <td>{{ professional.email }}</td>
+            <td>{{ professional.phone }}</td>
+            <td>{{ professional.service_name }}</td>
+            <td>{{ professional.experience }} yrs</td>
+            <td>
+                <button onclick="location.href='/admin/view_proof/{{professional.proof}}'">View Proof</button>
+
+            </td>
+
+            <td>
+                {% if professional.approved == 'Yes' %}
+                    <button onclick="location.href='/admin/unapprove_professional/{{ professional.professional_id }}'">Unapprove</button>
+                {% else %}
+                    <button onclick="location.href='/admin/approve_professional/{{ professional.professional_id }}'">Approve</button>
+                {% endif %}
+                {% if professional.status == 'active' %}
+                    <button onclick="location.href='/admin/block_prof/{{ professional.professional_id }}'">Block</button>
+                {% else %}
+                    <button onclick="location.href='/admin/unblock_prof/{{ professional.professional_id }}'">Unblock </button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+
+<div class="section">
+    {% if results.services %}
+    <h2>Services</h2>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Base Price</th>
+            <th>Time Required</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+        {% for service in results.services %}
+        <tr>
+            <td>{{ service.service_id }}</td>
+            <td>{{ service.name }}</td>
+            <td>Rs. {{ service.base_price }}</td>
+            <td>{{ service.time_required }} mins</td>
+            <td>{{ service.description }}</td>
+            <td>
+                        <button onclick="location.href='/admin/update_service/{{ service.service_id }}'">Update</button>
+                        <button onclick="location.href='/admin/delete_service/{{ service.service_id }}'">Delete</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+
+<div class="section">
+    {% if results.requests %}
+    <h2>Service Requests</h2>
+    <table border="1">
+        <tr>
+            <th>Request ID</th>
+             <th>Customer Username</th>
+            <th>Service Name</th>
+            <th>Professional Username</th>
+            <th>Date of Request</th>
+            <th>Date of Completion</th>
+            <th>Status</th>
+        </tr>
+        {% for request in results.requests %}
+        <tr>
+            <td>{{ request.request_id }}</td>
+            <td>{{ request.customer_username }}</td>
+            <td>{{ request.service_name }}</td>
+            <td>{{ request.professional_username }}</td>
+            <td>{{ request.date_of_request }}</td>
+            <td>{{ request.date_of_completion if request.date_of_completion else 'N/A' }}</td>
+            <td>{{ request.service_status }}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+</div>
+
+    {% if not results.customers and not results.professionals and not results.services and not results.requests %}
+    <p>No results found</p>
+    {% endif %}
+
+
+</body>
+</html>

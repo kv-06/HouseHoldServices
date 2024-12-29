@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Signup</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+</head>
+<body>
+    <h1>Customer Signup</h1>
+    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    <form action= '\customer\signup' method="POST">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        
+ 
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email" required><br><br>
+        
+        
+        <label for="phnum">Phone number:</label><br>
+        <input type="text" id="phnum" name="phnum" required><br><br>
+        
+
+        <label for="add">Address:</label><br>
+        <input type="text" id="add" name="add" required><br><br>
+        
+        
+        
+        <button type="submit">Signup</button>&nbsp;&nbsp;&nbsp;&nbsp;         
+        
+    </form>
+    <p>Already have an account? <a href="\customer\login">Login here</a></p>
+    <button onclick="location.href='/'">Back</button>
+
+</body>
+</html>

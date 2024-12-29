@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head><title> Book a Service</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+    </head>
+
+    <body>
+        <h2>Book a New Service</h2>
+        <form method="POST">
+            <input type="text" name="search" placeholder="Search for services" required>
+            <button type="submit">Search</button>
+        </form>
+
+        {% if services %}
+        <table border="1">
+            <tr>
+                <th>Service Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Time Required</th>
+                <th>Actions</th>
+            </tr>
+            {% for service in services %}
+            <tr>
+                <td>{{ service.name }}</td>
+                <td>{{ service.description }}</td>
+                <td>Rs. {{ service.base_price }}</td>
+                <td>{{ service.time_required }} mins</td>
+                <td>
+                    <button onclick="window.location.href='/customer/{{customer_id }}/service/{{ service.service_id }}'">View Professionals</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% else %}
+
+            <p>No services found</p>
+        {% endif %}
+        
+
+        <br> <br>
+        <button onclick="location.href='/customer/dashboard/{{customer_id}}'">Back</button>
+    </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Professional Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+
+</head>
+<body>
+    <header>
+        <h1>Search </h1>
+        <div class="nav">
+            <button onclick="location.href='/professional/dashboard/{{ professional_id }}'">Home</button>
+            <button onclick="location.href='/professional/search/{{ professional_id }}'">Search</button>
+            <button onclick="location.href='/professional/summary/{{ professional_id }}'">Summary</button>
+            <button onclick="location.href='/'">Logout</button>
+        </div>
+    </header>
+    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h2>Search </h2>
+        <form method="POST">
+            <input type="text" name="query" placeholder="Search">
+            <input type="date" name="date_filter" placeholder="Filter by date">
+            <button type="submit">Search</button>
+        </form>
+        <br>
+        <br>
+
+        {% if results %}
+
+        <table border="1">
+            <tr>
+                <th>Request ID</th>
+                <th>Customer Name</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Date Requested</th>
+                <th>Date Completed</th>
+            </tr>
+            {% for request in results %}
+            <tr>
+                <td>{{ request.request_id }}</td>
+                <td>{{ request.customer_name }}</td>
+                <td>{{ request.customer_location }}</td>
+                <td>{{ request.service_status }}</td>
+                <td>{{ request.date_of_request }}</td>
+                <td>{{ request.date_of_completion or 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% else %}
+
+        <p>No results found </p>
+
+
+        {% endif %}
+
+</body>
+</html>

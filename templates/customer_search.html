@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">       
+        <title>Search</title>
+    </head>
+    <body>
+        <h2>Search </h2>
+        <form method="POST">
+            <input type="text" name="search" placeholder="Search">
+            <input type="date" name="date_filter" placeholder="Filter by date">
+            <button type="submit">Search</button>
+        </form>
+        <br>
+        <br>
+        {% if results %}
+        <table>
+            <tr>
+                <th>Service Name</th>
+                <th>Description</th>
+                <th>Professional Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Date of Request</th>
+                <th>Date of Completion</th>
+                <th>Status</th>
+            </tr>
+            {% for result in results %}
+            <tr>
+                <td>{{ result.service_name }}</td>
+                <td>{{ result.description }}</td>
+                <td>{{ result.professional_name }}</td>
+                <td>{{ result.phone }}</td>
+                <td>{{ result.email }}</td>
+                <td>{{ result.date_of_request }}</td>
+                <td>{{ result.date_of_completion }}</td>
+                <td>{{ result.service_status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+
+        <br><br>
+        <button onclick="location.href='/customer/dashboard/{{customer_id}}'">Back</button>
+    </body>
+</html>
