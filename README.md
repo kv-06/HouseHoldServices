@@ -67,8 +67,8 @@ The project follows an **MVC (Model-View-Controller)** architecture:
 ## **How to Run the Application**
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/householdservices.git
-   cd householdservicesapp
+   git clone https://github.com/your-username/HouseHoldServices.git
+   cd HouseHoldServices
 2. Install required dependencies
 3. Run the application:
    ```bash
